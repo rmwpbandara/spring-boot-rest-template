@@ -1,0 +1,77 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot-rest-template
+
+  # Optional: Enable Java 21 Virtual Threads for high-concurrency I/O workloads
+  # threads:
+  #   virtual:
+  #     enabled: true
+
+  # Default: Zero-setup H2 in-memory database
+  datasource:
+    url: jdbc:h2:mem:appdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+app:
+  cors:
+    allowed-origins: "*"
+
+logging:
+  level:
+    com.template.api: INFO
+
+# =====================================================================
+# External DB Snippets (Uncomment & add driver in pom.xml when needed)
+# In production, set ddl-auto: validate and use Flyway / Liquibase.
+# =====================================================================
+# --- PostgreSQL ---
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/appdb
+#     username: postgres
+#     password: password
+#
+# --- MySQL ---
+# spring:
+#   datasource:
+#     url: jdbc:mysql://localhost:3306/appdb?useSSL=false&serverTimezone=UTC
+#     username: root
+#     password: password
+#
+# --- Oracle ---
+# spring:
+#   datasource:
+#     url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+#     username: system
+#     password: password
